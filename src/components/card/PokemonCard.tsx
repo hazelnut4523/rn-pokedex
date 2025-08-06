@@ -2,7 +2,6 @@ import { FlatList, Image, Modal, Pressable, Text, View } from "react-native";
 import { PokemonTypeBadge } from "../badge/PokemonTypeBadge";
 import { Pokemon } from "@/src/types/pokemon";
 import { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { XIcon } from "lucide-react-native";
 import { getPokemonInfo } from "@/src/utils/get_pokemon_info";
 import { PokemonCardSkeleton } from "../skeleton/PokemonCardSkeleton";
@@ -58,7 +57,7 @@ function PokemonCardDataExist({ pokemon }: { pokemon: Pokemon }) {
 
           <View className="flex flex-col items-center gap-2">
             <Text className="text-3xl font-bold">{pokemon.name}</Text>
-            <Text className="text-neutral-600">{pokemon.genera}</Text>
+            <Text className="text-neutral-600 text-lg">{pokemon.genera}</Text>
           </View>
 
           <View className="flex flex-row gap-2 justify-start">
@@ -67,15 +66,22 @@ function PokemonCardDataExist({ pokemon }: { pokemon: Pokemon }) {
             ))}
           </View>
 
+          <View className="flex flex-row gap-2 items-start w-full">
+            <View className="flex flex-col gap-2 items-start w-full">
+              <Text className="text-lg font-semibold">설명</Text>
+              <Text>{pokemon.flavorText[0].text}</Text>
+            </View>
+          </View>
+
           <View className="flex flex-row gap-4">
-            <View className="flex flex-col gap-2 items-center flex-1">
+            <View className="flex flex-col gap-2 items-start flex-1">
               <Text className="text-lg font-semibold">키</Text>
-              <Text className="text-base">{pokemon.height}cm</Text>
+              <Text className="">{pokemon.height}cm</Text>
             </View>
 
-            <View className="flex flex-col gap-2 items-center flex-1">
+            <View className="flex flex-col gap-2 items-start flex-1">
               <Text className="text-lg font-semibold">몸무게</Text>
-              <Text className="text-base">
+              <Text className="">
                 {pokemon.weight > 1000
                   ? `${pokemon.weight / 1_000}kg`
                   : `${pokemon.weight}g`}
@@ -83,26 +89,34 @@ function PokemonCardDataExist({ pokemon }: { pokemon: Pokemon }) {
             </View>
           </View>
 
-          <View className="flex flex-col gap-4 w-full items-center">
-            <Text className="font-semibold">특성</Text>
-            <FlatList
-              horizontal={true}
-              scrollEnabled={false}
-              data={pokemon.abilities}
-              ItemSeparatorComponent={() => <View className="w-2" />}
-              renderItem={({ item }) => (
-                <PokemonAbilityBadge value={item} language="ko" />
-              )}
-            />
+          <View className="flex flex-col gap-2 items-start w-full">
+            <Text className="text-lg font-semibold">포획률</Text>
+            <Text className="">{pokemon.captureRate}</Text>
+          </View>
+
+          <View className="flex flex-row gap-4">
+            <View className="flex flex-col gap-2 items-start flex-1">
+              <Text className="text-lg font-semibold">특성</Text>
+              <FlatList
+                horizontal={true}
+                scrollEnabled={false}
+                data={pokemon.abilities}
+                ItemSeparatorComponent={() => <View className="w-2" />}
+                renderItem={({ item }) => (
+                  <PokemonAbilityBadge value={item} language="ko" />
+                )}
+              />
+            </View>
           </View>
         </View>
 
         <View>
           <Pressable
             onPress={() => setModalVisible(false)}
-            className="bg-red-200 p-4 rounded-md"
+            className="bg-red-200 p-4 rounded-md flex flex-row justify-center items-center gap-4"
           >
             <XIcon />
+            <Text className="text-lg font-semibold">닫기</Text>
           </Pressable>
         </View>
       </Modal>

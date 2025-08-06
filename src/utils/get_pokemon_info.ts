@@ -35,6 +35,16 @@ export async function getPokemonInfo(
         (ability: { ability: { name: string; url: string }; slot: number }) =>
           ability.ability.name,
       ),
+      flavorText: pokemonSpecies.flavor_text_entries
+        .filter((item) => item.language.name === language)
+        .map((item) => {
+          return {
+            text: item.flavor_text,
+            language: item.language.name,
+            version: item.version.name,
+          };
+        }),
+      captureRate: pokemonSpecies.capture_rate,
     };
   } catch (error) {
     throw new Error(`Failed to fetch Pokemon info for ID ${id}: ${error}`);

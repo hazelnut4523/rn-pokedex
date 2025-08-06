@@ -1,3 +1,5 @@
+import { PokeApiLang } from "./pokeapi_lang";
+
 export interface Pokemon {
   /** 포켓몬 도감 번호 */
   id: number;
@@ -22,6 +24,23 @@ export interface Pokemon {
 
   /** 특성 */
   abilities: string[];
+
+  /** 설명 */
+  flavorText: FlavorText[];
+
+  /** 포획률 */
+  captureRate: number;
+}
+
+interface FlavorText {
+  /** 텍스트 */
+  text: string;
+
+  /** 언어 */
+  language: PokeApiLang;
+
+  /** 버전 */
+  version: string;
 }
 
 type HeightInCentimeter = number;
