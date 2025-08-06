@@ -1,3 +1,4 @@
+import { PokeApiLang } from "../types/pokeapi_lang";
 import { Pokemon } from "../types/pokemon";
 
 export async function getPokemonInfo(
@@ -30,6 +31,10 @@ export async function getPokemonInfo(
       ),
       height: pokemon.height * 10,
       weight: pokemon.weight * 100,
+      abilities: pokemon.abilities.map(
+        (ability: { ability: { name: string; url: string }; slot: number }) =>
+          ability.ability.name,
+      ),
     };
   } catch (error) {
     throw new Error(`Failed to fetch Pokemon info for ID ${id}: ${error}`);
@@ -49,16 +54,3 @@ function getLocalGenusInGeneraArr(
 ) {
   return genera.find((genus) => genus.language.name === language)?.genus || "";
 }
-
-type PokeApiLang =
-  | "ja-Hrkt"
-  | "roomaji"
-  | "ko"
-  | "zh-Hant"
-  | "fr"
-  | "de"
-  | "es"
-  | "it"
-  | "en"
-  | "ja"
-  | "zh-Hans";

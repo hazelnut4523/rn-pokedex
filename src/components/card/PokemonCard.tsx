@@ -1,4 +1,4 @@
-import { Image, Modal, Pressable, Text, View } from "react-native";
+import { FlatList, Image, Modal, Pressable, Text, View } from "react-native";
 import { PokemonTypeBadge } from "../badge/PokemonTypeBadge";
 import { Pokemon } from "@/src/types/pokemon";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { XIcon } from "lucide-react-native";
 import { getPokemonInfo } from "@/src/utils/get_pokemon_info";
 import { PokemonCardSkeleton } from "../skeleton/PokemonCardSkeleton";
+import { PokemonAbilityBadge } from "../badge/PokemonAbilityBagde";
 
 interface Props {
   pokemonId: number;
@@ -49,48 +50,61 @@ function PokemonCardDataExist({ pokemon }: { pokemon: Pokemon }) {
       </Pressable>
 
       <Modal visible={modalVisible} animationType="slide">
-        <SafeAreaView className="w-full h-full">
-          <View className="flex flex-col gap-6 p-4 items-center">
-            <Image
-              source={{ uri: pokemon.imageUrl.toString() }}
-              className="w-3/4 aspect-square rounded-lg border border-neutral-300"
-            />
+        <View className="flex flex-col gap-6 p-4 items-center relative">
+          <Image
+            source={{ uri: pokemon.imageUrl.toString() }}
+            className="w-3/4 aspect-square"
+          />
 
-            <View className="flex flex-col items-center gap-2">
-              <Text className="text-3xl font-semibold">{pokemon.name}</Text>
-              <Text className="text-neutral-600">{pokemon.genera}</Text>
+          <View className="flex flex-col items-center gap-2">
+            <Text className="text-3xl font-bold">{pokemon.name}</Text>
+            <Text className="text-neutral-600">{pokemon.genera}</Text>
+          </View>
+
+          <View className="flex flex-row gap-2 justify-start">
+            {pokemon.types.map((item, idx) => (
+              <PokemonTypeBadge key={idx} pokemonType={item} />
+            ))}
+          </View>
+
+          <View className="flex flex-row gap-4">
+            <View className="flex flex-col gap-2 items-center flex-1">
+              <Text className="text-lg font-semibold">키</Text>
+              <Text className="text-base">{pokemon.height}cm</Text>
             </View>
 
-            <View className="flex flex-row gap-2 justify-start">
-              {pokemon.types.map((item, idx) => (
-                <PokemonTypeBadge key={idx} pokemonType={item} />
-              ))}
-            </View>
-
-            <View className="flex flex-row gap-4">
-              <View className="flex flex-col gap-2 items-center flex-1">
-                <Text className="text-lg font-semibold">키</Text>
-                <Text className="text-base">{pokemon.height}cm</Text>
-              </View>
-
-              <View className="flex flex-col gap-2 items-center flex-1">
-                <Text className="text-lg font-semibold">몸무게</Text>
-                <Text className="text-base">
-                  {pokemon.weight > 1000
-                    ? `${pokemon.weight / 1_000}kg`
-                    : `${pokemon.weight}g`}
-                </Text>
-              </View>
+            <View className="flex flex-col gap-2 items-center flex-1">
+              <Text className="text-lg font-semibold">몸무게</Text>
+              <Text className="text-base">
+                {pokemon.weight > 1000
+                  ? `${pokemon.weight / 1_000}kg`
+                  : `${pokemon.weight}g`}
+              </Text>
             </View>
           </View>
 
+          <View className="flex flex-col gap-4 w-full items-center">
+            <Text className="font-semibold">특성</Text>
+            <FlatList
+              horizontal={true}
+              scrollEnabled={false}
+              data={pokemon.abilities}
+              ItemSeparatorComponent={() => <View className="w-2" />}
+              renderItem={({ item }) => (
+                <PokemonAbilityBadge value={item} language="ko" />
+              )}
+            />
+          </View>
+        </View>
+
+        <View>
           <Pressable
             onPress={() => setModalVisible(false)}
-            className="bg-white p-4 rounded-md"
+            className="bg-red-200 p-4 rounded-md"
           >
             <XIcon />
           </Pressable>
-        </SafeAreaView>
+        </View>
       </Modal>
     </>
   );

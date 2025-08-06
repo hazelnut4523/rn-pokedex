@@ -19,6 +19,9 @@ export interface Pokemon {
 
   /** 체중 (그램 단위) */
   weight: WeightInGram;
+
+  /** 특성 */
+  abilities: string[];
 }
 
 type HeightInCentimeter = number;

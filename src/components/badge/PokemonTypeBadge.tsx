@@ -2,7 +2,7 @@ import { POKEMON_TYPE } from "@/src/consts/pokemon_type";
 import { Text, View } from "react-native";
 
 interface Props {
-  pokemonType: string;
+  pokemonType: keyof typeof POKEMON_TYPE;
 }
 
 export function PokemonTypeBadge({ pokemonType }: Props) {
