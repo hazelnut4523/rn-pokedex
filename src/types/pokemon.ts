@@ -5,6 +5,9 @@ export interface Pokemon {
   /** 이름 */
   name: string;
 
+  /** 분류 */
+  genera: string;
+
   /** 포켓몬 타입 */
   types: string[];
 

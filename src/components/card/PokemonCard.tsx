@@ -49,13 +49,16 @@ function PokemonCardDataExist({ pokemon }: { pokemon: Pokemon }) {
 
       <Modal visible={modalVisible} animationType="slide">
         <SafeAreaView className="w-full h-full">
-          <View className="flex flex-col gap-4 p-4 items-center">
+          <View className="flex flex-col gap-6 p-4 items-center">
             <Image
               source={{ uri: pokemon.imageUrl.toString() }}
               className="w-3/4 aspect-square rounded-lg border border-neutral-300"
             />
 
-            <Text className="text-3xl font-semibold">{pokemon.name}</Text>
+            <View className="flex flex-col items-center gap-2">
+              <Text className="text-3xl font-semibold">{pokemon.name}</Text>
+              <Text className="text-neutral-600">{pokemon.genera}</Text>
+            </View>
 
             <View className="flex flex-row gap-2 justify-start">
               {pokemon.types.map((item, idx) => (

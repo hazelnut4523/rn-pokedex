@@ -18,6 +18,9 @@ export async function getPokemonInfo(
       name: language
         ? getLocalNameInNamesArr(pokemonSpecies.names, language)
         : pokemonSpecies.name,
+      genera: language
+        ? getLocalGenusInGeneraArr(pokemonSpecies.genera, language)
+        : getLocalGenusInGeneraArr(pokemonSpecies.genera, "en"),
       types: pokemon.types.map(
         (type: { type: { name: string; url: string }; slot: number }) =>
           type.type.name,
@@ -38,6 +41,13 @@ function getLocalNameInNamesArr(
   language: PokeApiLang,
 ) {
   return names.find((name) => name.language.name === language)?.name || "";
+}
+
+function getLocalGenusInGeneraArr(
+  genera: { language: { name: string }; genus: string }[],
+  language: PokeApiLang,
+) {
+  return genera.find((genus) => genus.language.name === language)?.genus || "";
 }
 
 type PokeApiLang =
