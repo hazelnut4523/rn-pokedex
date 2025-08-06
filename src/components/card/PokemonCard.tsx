@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { XIcon } from "lucide-react-native";
 import { getPokemonInfo } from "@/src/utils/get_pokemon_info";
+import { PokemonCardSkeleton } from "../skeleton/PokemonCardSkeleton";
 
 interface Props {
   pokemonId: number;
@@ -20,7 +21,7 @@ export function PokemonCard({ pokemonId }: Props) {
   return pokemon ? (
     <PokemonCardDataExist pokemon={pokemon} />
   ) : (
-    <View className="w-full aspect-[3/4] bg-slate-500" />
+    <PokemonCardSkeleton />
   );
 }
 
